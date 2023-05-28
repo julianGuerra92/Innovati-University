@@ -10,7 +10,7 @@ import { PaginationDto } from 'src/common/dtos/pagination.dto';
 @Injectable()
 export class FacultiesService {
 
-  private readonly logger = new Logger('StudentsService');
+  private readonly logger = new Logger('FacultiesService');
 
   constructor(
     @InjectRepository(Faculty)
@@ -31,7 +31,10 @@ export class FacultiesService {
     const { limit = 10, offset = 0 } = paginationDto;
     return this.facultyRepository.find({
       take: limit,
-      skip: offset
+      skip: offset,
+      relations: {
+        students: true
+      }
     });
   }
 

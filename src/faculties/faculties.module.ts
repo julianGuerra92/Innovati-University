@@ -10,6 +10,10 @@ import { Faculty } from './entities/faculty.entity';
   providers: [FacultiesService],
   imports: [
     TypeOrmModule.forFeature([Faculty])
+  ],
+  exports: [
+    FacultiesService,
+    TypeOrmModule
   ]
 })
 export class FacultiesModule {}

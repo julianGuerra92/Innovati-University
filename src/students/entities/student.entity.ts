@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Faculty } from "src/faculties/entities/faculty.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Student {
@@ -49,5 +50,13 @@ export class Student {
       default: 1
    })
    level: number;
+
+   @ManyToOne(
+      () => Faculty,
+      (faculty) => faculty.students,
+      { cascade: true, onDelete: 'SET NULL', eager: true }
+   )
+   @JoinColumn({ name: 'faculty_id' })
+   faculty: Faculty
 
 }

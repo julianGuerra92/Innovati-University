@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+import { Faculty } from "src/faculties/entities/faculty.entity";
 
 @Entity()
 export class Subject {
@@ -20,9 +21,14 @@ export class Subject {
    description: string;
 
    @Column('numeric')
-   credist: number;
+   credits: number;
 
-   @Column('text')
-   faculty: string;
+   @ManyToOne(
+      () => Faculty,
+      (faculty) => faculty.subjects,
+      { cascade: true, onDelete: 'SET NULL', eager: true }
+   )
+   @JoinColumn({ name: 'faculty_id' })
+   faculty: Faculty
 
 }

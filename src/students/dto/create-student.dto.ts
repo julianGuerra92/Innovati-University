@@ -1,4 +1,4 @@
-import { IsEmail, IsIn, IsMobilePhone, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsIn, IsInt, IsMobilePhone, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
 
 export class CreateStudentDto {
 
@@ -28,6 +28,11 @@ export class CreateStudentDto {
    @IsString()
    @MinLength(3)
    address: string;
+
+   @IsInt()
+   @IsPositive()
+   @IsNotEmpty()
+   facultyId: number;
 
    @IsIn([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
    @IsOptional()

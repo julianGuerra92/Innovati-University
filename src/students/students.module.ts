@@ -4,12 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentsService } from './students.service';
 import { StudentsController } from './students.controller';
 import { Student } from './entities/student.entity';
+import { FacultiesModule } from 'src/faculties/faculties.module';
 
 @Module({
   controllers: [StudentsController],
   providers: [StudentsService],
   imports: [
-    TypeOrmModule.forFeature([Student])
+    TypeOrmModule.forFeature([Student]),
+    FacultiesModule
   ]
 })
 export class StudentsModule {}

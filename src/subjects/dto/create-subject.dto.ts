@@ -1,4 +1,4 @@
-import { IsIn, IsInt, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
 
 
 export class CreateSubjectDto {
@@ -14,9 +14,11 @@ export class CreateSubjectDto {
 
    @IsPositive()
    @IsInt()
-   credist: number;
+   credits: number;
 
-   @IsIn(['ingenieria', 'ciencias exactas y naturales'])
-   faculty: string;
+   @IsInt()
+   @IsPositive()
+   @IsNotEmpty()
+   facultyId: number;
 
 }

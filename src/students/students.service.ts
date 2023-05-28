@@ -6,6 +6,7 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './entities/student.entity';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { FacultiesService } from 'src/faculties/faculties.service';
 
 @Injectable()
 export class StudentsService {
@@ -14,12 +15,14 @@ export class StudentsService {
 
   constructor(
     @InjectRepository(Student)
-    private readonly studentRepository: Repository<Student>
+    private readonly studentRepository: Repository<Student>,
+    private readonly facultiesService: FacultiesService
   ) { }
 
   async create(createStudentDto: CreateStudentDto) {
     try {
-      const student = this.studentRepository.create(createStudentDto);
+      const faculty = await this.facultiesService.findOne(createStudentDto.facultyId);
+      const student = this.studentRepository.create({ faculty, ...createStudentDto });
       await this.studentRepository.save(student);
       return student;
     } catch (error) {
@@ -42,10 +45,11 @@ export class StudentsService {
   }
 
   async findOneByIdentificaition(identification: string) {
-    const query = this.studentRepository.createQueryBuilder();
+    const query = this.studentRepository.createQueryBuilder('stu');
     const student = await query.where('identification_number =:identification', {
       identification: identification
-    }).getOne();
+    }).leftJoinAndSelect('stu.faculty', 'faculty_id')
+      .getOne();
     if (!student) throw new NotFoundException(`Student with identification ${identification} not found!`);
     return student;
   }
@@ -57,8 +61,12 @@ export class StudentsService {
     })
     if (!student) throw new NotFoundException(`Student with id ${id} not found!`);
     try {
+      if (updateStudentDto.facultyId) {
+        const faculty = await this.facultiesService.findOne(updateStudentDto.facultyId);
+        student.faculty = faculty;
+      }
       await this.studentRepository.save(student);
-      return student;
+      return this.findOneById(student.id);
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -68,6 +76,10 @@ export class StudentsService {
     let student = await this.findOneByIdentificaition(identification);
     student = { ...student, ...updateStudentDto };
     try {
+      if (updateStudentDto.facultyId) {
+        const faculty = await this.facultiesService.findOne(student.faculty.id);
+        student.faculty = faculty;
+      }
       await this.studentRepository.save(student);
       return student;
     } catch (error) {
@@ -82,6 +94,7 @@ export class StudentsService {
 
   private handleDBExceptions(error: any) {
     if (error.code === '23505') throw new BadRequestException(error.detail);
+    if (error instanceof NotFoundException) throw new NotFoundException(error.message);
     this.logger.error(error);
     throw new InternalServerErrorException('Unexpected error, check server logs!');
   }
