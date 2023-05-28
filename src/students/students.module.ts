@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { StudentsService } from './students.service';
 import { StudentsController } from './students.controller';
-
 import { Student } from './entities/student.entity';
 
 @Module({

@@ -3,6 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentsModule } from './students/students.module';
 import { CommonModule } from './common/common.module';
+import { SubjectsModule } from './subjects/subjects.module';
+import { RegistrationsModule } from './registrations/registrations.module';
+import { GradesModule } from './grades/grades.module';
+import { FacultiesModule } from './faculties/faculties.module';
 
 @Module({
   imports: [
@@ -18,7 +22,11 @@ import { CommonModule } from './common/common.module';
       synchronize: true
     }),
     StudentsModule,
-    CommonModule
+    CommonModule,
+    SubjectsModule,
+    RegistrationsModule,
+    GradesModule,
+    FacultiesModule
   ],
 })
 

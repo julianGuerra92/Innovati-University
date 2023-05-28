@@ -29,15 +29,25 @@ export class StudentsController {
     return this.studentsService.findOneByIdentificaition(identification);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-    return this.studentsService.update(+id, updateStudentDto);
+  @Patch('id/:id')
+  updateById(
+    @Param('id') id: string,
+    @Body() updateStudentDto: UpdateStudentDto
+  ) {
+    return this.studentsService.updateById(+id, updateStudentDto);
+  }
+
+  @Patch('identification/:identification')
+  updateByIdentification(
+    @Param('identification') identification: string,
+    @Body() updateStudentDto: UpdateStudentDto
+  ) {
+    return this.studentsService.updateByIdentification(identification, updateStudentDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.studentsService.remove(+id);
   }
-}
 
-//TODO: Quedamos en el video 132
+}

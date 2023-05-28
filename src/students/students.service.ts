@@ -46,12 +46,33 @@ export class StudentsService {
     const student = await query.where('identification_number =:identification', {
       identification: identification
     }).getOne();
-    if (!student) throw new NotFoundException(`Student with identification ${identification} not found!`)
+    if (!student) throw new NotFoundException(`Student with identification ${identification} not found!`);
     return student;
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  async updateById(id: number, updateStudentDto: UpdateStudentDto) {
+    const student = await this.studentRepository.preload({
+      id: id,
+      ...updateStudentDto
+    })
+    if (!student) throw new NotFoundException(`Student with id ${id} not found!`);
+    try {
+      await this.studentRepository.save(student);
+      return student;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
+
+  async updateByIdentification(identification: string, updateStudentDto: UpdateStudentDto) {
+    let student = await this.findOneByIdentificaition(identification);
+    student = { ...student, ...updateStudentDto };
+    try {
+      await this.studentRepository.save(student);
+      return student;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 
   async remove(id: number) {
