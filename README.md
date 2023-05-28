@@ -2,7 +2,7 @@
 
 Proyecto backend Restful API creado como parte de la prueba técnica en el proceso de selección con la empresa Innovati.
 <br>
-Autor: Julián Andrés Rodríguez Guerra
+<strong>Autor: Julián Andrés Rodríguez Guerra</strong>
 
 ## Tecnologías y herramientas utilizadas:
 
