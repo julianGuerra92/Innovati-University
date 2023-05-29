@@ -56,7 +56,7 @@ export class StudentsService {
 
   async updateById(id: number, updateStudentDto: UpdateStudentDto) {
     const student = await this.studentRepository.preload({
-      id: id,
+      id,
       ...updateStudentDto
     })
     if (!student) throw new NotFoundException(`Student with id ${id} not found!`);

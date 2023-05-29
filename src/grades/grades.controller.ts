@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { GradesService } from './grades.service';
 import { CreateGradeDto } from './dto/create-grade.dto';
 import { UpdateGradeDto } from './dto/update-grade.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('grades')
 export class GradesController {
-  constructor(private readonly gradesService: GradesService) {}
+  constructor(private readonly gradesService: GradesService) { }
 
   @Post()
   create(@Body() createGradeDto: CreateGradeDto) {
@@ -13,8 +14,8 @@ export class GradesController {
   }
 
   @Get()
-  findAll() {
-    return this.gradesService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.gradesService.findAll(paginationDto);
   }
 
   @Get(':id')

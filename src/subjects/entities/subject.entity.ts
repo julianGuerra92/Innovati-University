@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { Faculty } from "src/faculties/entities/faculty.entity";
+import { Registration } from "src/registrations/entities/registration.entity";
 
 @Entity()
 export class Subject {
@@ -30,5 +31,11 @@ export class Subject {
    )
    @JoinColumn({ name: 'faculty_id' })
    faculty: Faculty
+
+   @OneToMany(
+      () => Registration,
+      (registration) => registration.student
+   )
+   registrations?: Registration[];
 
 }

@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+
 import { RegistrationsService } from './registrations.service';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
 import { UpdateRegistrationDto } from './dto/update-registration.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('registrations')
 export class RegistrationsController {
-  constructor(private readonly registrationsService: RegistrationsService) {}
+  constructor(private readonly registrationsService: RegistrationsService) { }
 
   @Post()
   create(@Body() createRegistrationDto: CreateRegistrationDto) {
@@ -13,8 +15,8 @@ export class RegistrationsController {
   }
 
   @Get()
-  findAll() {
-    return this.registrationsService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.registrationsService.findAll(paginationDto);
   }
 
   @Get(':id')

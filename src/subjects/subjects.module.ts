@@ -12,6 +12,10 @@ import { FacultiesModule } from 'src/faculties/faculties.module';
   imports: [
     TypeOrmModule.forFeature([Subject]),
     FacultiesModule
+  ],
+  exports: [
+    SubjectsService,
+    TypeOrmModule
   ]
 })
 export class SubjectsModule { }
