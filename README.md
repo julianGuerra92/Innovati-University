@@ -3,6 +3,7 @@
 Proyecto backend Restful API creado como parte de la prueba técnica en el proceso de selección con la empresa Innovati.
 <br>
 <strong>Autor: Julián Andrés Rodríguez Guerra</strong>
+<strong>Video de explicación del proyecto <link>https://www.youtube.com</link></strong>
 
 ## Tecnologías y herramientas utilizadas:
 
@@ -17,7 +18,7 @@ Proyecto backend Restful API creado como parte de la prueba técnica en el proce
 2. Intalación de dependencias:
 
 ```
-yarn install
+npm install
 ```
 
 3. Clonar el archivo `.env.template` y renombrar a `.env`.
@@ -31,5 +32,5 @@ docker compose up -d
 6. Inicializar el servicio de backend usando el siguiente comando:
 
 ```
-yarn start:dev
+npm run start:dev
 ```
