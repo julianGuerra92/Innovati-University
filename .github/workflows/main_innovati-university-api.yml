@@ -25,6 +25,13 @@ jobs:
         run: |
           npm install
           npm run build --if-present
+          npm run test --if-present
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -34,6 +41,10 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -41,5 +52,5 @@ jobs:
         with:
           app-name: 'innovati-university-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_97DD399334DF4C9590C4CB322E676AFF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E1C645398DD74D1B94256793339B9892 }}
           package: .
